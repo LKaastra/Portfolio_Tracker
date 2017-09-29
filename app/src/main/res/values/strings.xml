@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Portfolio Tracker</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="userName">User Name</string>
+    <string name="createAccount">Create Account</string>
+    <string name="passwordConfirm">Confirm Password</string>
+    <string name="email">Email</string>
+</resources>
