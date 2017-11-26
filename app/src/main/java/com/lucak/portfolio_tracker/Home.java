@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.lucak.Database.db;
+
 public class Home extends AppCompatActivity {
     private TextView greeting;
 
@@ -14,6 +16,8 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         greeting = (TextView)findViewById(R.id.greeting);
         Intent i = getIntent();
-        greeting.setText("Welcome " + i.getStringExtra(Intent.EXTRA_TEXT));
+        greeting.setText("Welcome " + db.myDB.loggedin.getUser_Name());
     }
+
+
 }

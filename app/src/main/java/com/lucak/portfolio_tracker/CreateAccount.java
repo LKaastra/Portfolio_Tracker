@@ -8,7 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.lucak.DAL.UserDB;
+import com.lucak.Database.Database;
+import com.lucak.Database.db;
 import com.lucak.classes.User;
 
 public class CreateAccount extends AppCompatActivity implements View.OnClickListener{
@@ -17,6 +18,7 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
     private EditText confirmPassword;
     private EditText email;
     private Button createAccount;
+    Database data;
 
 
     @Override
@@ -29,6 +31,7 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         email = (EditText)findViewById(R.id.email);
         createAccount = (Button)findViewById(R.id.btnCreateAccountCreate);
         createAccount.setOnClickListener(this);
+        data = db.myDB.instance;
     }
 
 
@@ -59,10 +62,15 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
                 }
                 else{
                     User user = new User(userNameString, passwordString, emailString);
-                    UserDB.AddUser(user);
-                    Toast.makeText(this, "User Created", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(this, Login.class);
-                    startActivity(i);
+                    boolean result = data.AddUser(user);
+                    if (result == true) {
+                        Toast.makeText(this, "User Created", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, Login.class);
+                        startActivity(i);
+                    }
+                    else {
+                        Toast.makeText(this, "Error Creating User", Toast.LENGTH_LONG).show();
+                    }
                 }
                 break;
             default:

@@ -9,7 +9,8 @@ import android.widget.EditText;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
-import com.lucak.DAL.UserDB;
+import com.lucak.Database.Database;
+import com.lucak.Database.db;
 import com.lucak.classes.User;
 
 public class Login extends AppCompatActivity implements OnClickListener {
@@ -18,6 +19,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
     private EditText password;
     private Button login;
     private Button createAccount;
+    Database data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,8 @@ public class Login extends AppCompatActivity implements OnClickListener {
         createAccount = (Button)findViewById(R.id.btnCreateAccount);
         login.setOnClickListener(this);
         createAccount.setOnClickListener(this);
+        db.myDB.instance = new Database(this);
+        data = db.myDB.instance;
     }
 
     @Override
@@ -51,10 +55,9 @@ public class Login extends AppCompatActivity implements OnClickListener {
                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
                 }
                 else{
-                    int loginSuccess = UserDB.compareUser(new User(userString, passString));
-                    if (loginSuccess == 1){
+                    boolean loginSuccess = data.Login(new User(userString, passString));
+                    if (loginSuccess == true){
                         Intent i = new Intent(this, Home.class);
-                        i.putExtra(Intent.EXTRA_TEXT, userString);
                         startActivity(i);
                     }
                     else{
