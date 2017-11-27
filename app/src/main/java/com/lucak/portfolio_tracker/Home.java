@@ -17,7 +17,10 @@ public class Home extends AppCompatActivity {
         greeting = (TextView)findViewById(R.id.greeting);
         Intent i = getIntent();
         greeting.setText("Welcome " + db.myDB.loggedin.getUser_Name());
+
     }
 
+    private void LoadStat(){
 
+    }
 }

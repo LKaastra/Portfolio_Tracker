@@ -9,7 +9,6 @@ import com.lucak.classes.User;
 public class db {
 
     public static class myDB {
-        public static Database instance;
         public static User loggedin;
     }
 }

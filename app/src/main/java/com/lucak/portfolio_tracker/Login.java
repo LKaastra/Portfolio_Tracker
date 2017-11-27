@@ -31,8 +31,7 @@ public class Login extends AppCompatActivity implements OnClickListener {
         createAccount = (Button)findViewById(R.id.btnCreateAccount);
         login.setOnClickListener(this);
         createAccount.setOnClickListener(this);
-        db.myDB.instance = new Database(this);
-        data = db.myDB.instance;
+        data = new Database(this);
     }
 
     @Override

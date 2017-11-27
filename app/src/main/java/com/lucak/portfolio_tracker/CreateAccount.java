@@ -31,7 +31,7 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
         email = (EditText)findViewById(R.id.email);
         createAccount = (Button)findViewById(R.id.btnCreateAccountCreate);
         createAccount.setOnClickListener(this);
-        data = db.myDB.instance;
+        data = new Database(this);
     }
 
 
