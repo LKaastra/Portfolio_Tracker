@@ -6,4 +6,6 @@
     <string name="createAccount">Create Account</string>
     <string name="passwordConfirm">Confirm Password</string>
     <string name="email">Email</string>
+    <string name="addCoin">Add Coin</string>
+    <string name="addToken">Add Token</string>
 </resources>
