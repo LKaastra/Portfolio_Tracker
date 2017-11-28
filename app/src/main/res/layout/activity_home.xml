@@ -7,13 +7,13 @@
     tools:context="com.lucak.portfolio_tracker.Home">
 
     <Button
-        android:id="@+id/addToken"
+        android:id="@+id/btnAddToken"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/addToken" />
 
     <Button
-        android:id="@+id/addCoin"
+        android:id="@+id/btnAddCoin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/addCoin" />
