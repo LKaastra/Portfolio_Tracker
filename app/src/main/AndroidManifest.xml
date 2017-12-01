@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateAccount" />
-        <activity android:name=".Home"></activity>
+        <activity android:name=".Home" />
+        <activity android:name=".AddCoin" />
+        <activity android:name=".AddToken"></activity>
     </application>
 
 </manifest>

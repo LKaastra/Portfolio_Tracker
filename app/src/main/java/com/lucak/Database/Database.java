@@ -1,8 +1,12 @@
 package com.lucak.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.lucak.classes.User;
 
 /**
  * Created by lkaastra6885 on 11/30/2017.
@@ -19,13 +23,26 @@ public class Database extends SQLiteOpenHelper {
     public static final String USER_COL_LOGIN = "user_Login";
     public static final String USER_COL_PASS = "user_Pass";
     public static final String USER_COL_EMAIL = "user_Email";
+    public static final String[] USER_COLUMNS = {USER_COL_ID, USER_COL_LOGIN, USER_COL_PASS, USER_COL_EMAIL};
 
     //Coin Table Info
     public static final String COIN_TABLE_NAME = "Coins";
     public static final String COIN_COL_ID = "coin_ID";
+    public static final String COIN_COL_AMOUNT = "coin_Amount";
+    public static final String COIN_COL_PRICE = "price_Per_Coin";
+    public static final String COIN_COL_TICKER = "coin_Ticker";
+    public static final String COIN_COL_NAME = "coin_Name";
+    public static final String[] COIN_COLUMNS = {COIN_COL_ID, COIN_COL_AMOUNT, COIN_COL_PRICE, COIN_COL_TICKER, COIN_COL_NAME};
 
-
-
+    //Coin Table Info
+    public static final String TOKEN_TABLE_NAME = "Tokens";
+    public static final String TOKEN_COL_ID = "token_ID";
+    public static final String TOKEN_COL_COIN = "coin_ID";
+    public static final String TOKEN_COL_AMOUNT = "token_Amount";
+    public static final String TOKEN_COL_PRICE = "price_Per_token";
+    public static final String TOKEN_COL_TICKER = "token_Ticker";
+    public static final String TOKEN_COL_NAME = "token_Name";
+    public static final String[] TOKEN_COLUMNS = {TOKEN_COL_ID, TOKEN_COL_COIN, TOKEN_COL_AMOUNT, TOKEN_COL_AMOUNT, TOKEN_COL_PRICE, TOKEN_COL_TICKER, TOKEN_COL_NAME};
 
     public Database(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -33,7 +50,7 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createUserTable = "CREATE TABLE" + USER_TABLE_NAME + " ( " +
+        String createUserTable = "CREATE TABLE " + USER_TABLE_NAME + " ( " +
                 USER_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 USER_COL_LOGIN + " VARCHAR, " +
                 USER_COL_PASS + " VARCHAR, " +
@@ -42,13 +59,80 @@ public class Database extends SQLiteOpenHelper {
 
         String createCoinTable = "CREATE TABLE " + COIN_TABLE_NAME + " ( " +
                 COIN_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COIN_COL_AMOUNT + " REAL, " +
+                COIN_COL_PRICE + " REAL, " +
+                COIN_COL_TICKER + " VARCHAR, " +
+                COIN_COL_NAME + " VARCHAR " +
+                ")";
 
+        String tokenCoinTable = "CREATE TABLE " + TOKEN_TABLE_NAME + " ( " +
+                TOKEN_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TOKEN_COL_COIN + " INTEGER, " +
+                TOKEN_COL_AMOUNT + " REAL, " +
+                TOKEN_COL_PRICE + " REAL, " +
+                TOKEN_COL_TICKER + " VARCHAR, " +
+                TOKEN_COL_NAME + " VARCHAR " +
+                ")";
 
         db.execSQL(createUserTable);
+        db.execSQL(createCoinTable);
+        db.execSQL(tokenCoinTable);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        String dropUserTable = "DROP TABLE IF EXISTS " + USER_TABLE_NAME;
+        String dropCoinTable = "DROP TABLE IF EXISTS " + COIN_TABLE_NAME;
+        String dropTokenTable = "DROP TABLE IF EXISTS " + TOKEN_TABLE_NAME;
+        db.execSQL(dropUserTable);
+        db.execSQL(dropCoinTable);
+        db.execSQL(dropTokenTable);
+        onCreate(db);
+    }
+
+    public boolean Login(User user){
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(USER_TABLE_NAME,
+                USER_COLUMNS,
+                USER_COL_LOGIN + " = ? AND " + USER_COL_PASS +" = ?",
+                new String[]{user.getUser_Name(), user.getPassword()},
+                null,
+                null,
+                null);
+
+        if (cursor != null && cursor.getCount() > 0){
+            cursor.moveToFirst();
+            db.myDB.loggedin = new User(
+                cursor.getInt(cursor.getColumnIndex(USER_COL_ID)),
+                cursor.getString(cursor.getColumnIndex(USER_COL_LOGIN)),
+                cursor.getString(cursor.getColumnIndex(USER_COL_PASS)),
+                cursor.getString(cursor.getColumnIndex(USER_COL_EMAIL))
+            );
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean AddUser(User user){
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put(USER_COL_LOGIN, user.getUser_Name());
+            cv.put(USER_COL_PASS, user.getPassword());
+            cv.put(USER_COL_EMAIL, user.getEmail());
+
+            database.insert(USER_TABLE_NAME, null, cv);
+            database.close();
+
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
 
     }
+
 }
