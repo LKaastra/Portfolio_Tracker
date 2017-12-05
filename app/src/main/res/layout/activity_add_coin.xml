@@ -13,9 +13,8 @@
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:minHeight="100px"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal">
+        android:minHeight="50dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/textView13"
@@ -23,15 +22,14 @@
             android:layout_height="wrap_content"
             android:text="@string/addCoin"
             android:textColor="@color/black"
-            android:textSize="45px" />
+            android:textSize="25sp" />
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:minHeight="100px">
+        android:minHeight="25dp">
 
         <TextView
             android:id="@+id/textView9"
@@ -51,9 +49,8 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:minHeight="100px">
+        android:minHeight="25dp">
 
         <TextView
             android:id="@+id/textView10"
@@ -73,9 +70,8 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:minHeight="100px">
+        android:minHeight="25dp">
 
         <TextView
             android:id="@+id/textView11"
@@ -95,9 +91,8 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="83dp"
-        android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:minHeight="100px">
+        android:minHeight="25dp">
 
         <TextView
             android:id="@+id/textView12"
@@ -117,9 +112,8 @@
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="83dp"
-        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:minHeight="200px">
+        android:minHeight="100dp">
 
         <Button
             android:id="@+id/btnAddCoinBack"
@@ -133,7 +127,6 @@
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tableLayout"
             android:text="@string/add" />
 
     </TableRow>
