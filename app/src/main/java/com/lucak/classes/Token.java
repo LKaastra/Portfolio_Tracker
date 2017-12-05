@@ -98,4 +98,8 @@ public class Token {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String toString(){
+        return token_Ticker + ", Owned=" + token_Amount + ", Worth=" + (token_Amount * bought_Price);
+    }
 }

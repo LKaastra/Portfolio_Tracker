@@ -87,4 +87,8 @@ public class Coin {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String toString(){
+        return coin_Ticker + ", Owned=" + coin_Amount + ", Worth=" + (coin_Amount * bought_Price);
+    }
 }

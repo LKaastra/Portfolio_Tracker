@@ -10,6 +10,8 @@ import com.lucak.classes.Coin;
 import com.lucak.classes.Token;
 import com.lucak.classes.User;
 
+import java.util.ArrayList;
+
 /**
  * Created by lkaastra6885 on 11/30/2017.
  */
@@ -182,6 +184,63 @@ public class Database extends SQLiteOpenHelper {
         catch(Exception e){
             return false;
         }
+    }
+    public ArrayList<Coin> GetAllCoins(){
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(COIN_TABLE_NAME,
+                COIN_COLUMNS,
+                "",
+                null,
+                null,
+                null,
+                null);
+
+        ArrayList<Coin> coinList = new ArrayList<Coin>();
+
+        while(cursor.moveToNext()){
+            Coin coin = new Coin(
+                    cursor.getInt(cursor.getColumnIndex(COIN_COL_ID)),
+                    cursor.getInt(cursor.getColumnIndex(COIN_COL_USER_ID)),
+                    cursor.getDouble(cursor.getColumnIndex(COIN_COL_AMOUNT)),
+                    cursor.getDouble(cursor.getColumnIndex(COIN_COL_PRICE)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_TICKER)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_NAME))
+            );
+
+            coinList.add(coin);
+        }
+
+        return coinList;
+
+    }
+    public ArrayList<Token> GetAllTokens(){
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(TOKEN_TABLE_NAME,
+                TOKEN_COLUMNS,
+                "",
+                null,
+                null,
+                null,
+                null);
+
+        ArrayList<Token> tokenList = new ArrayList<Token>();
+
+        while(cursor.moveToNext()){
+            Token token = new Token(
+                    cursor.getInt(cursor.getColumnIndex(TOKEN_COL_ID)),
+                    cursor.getInt(cursor.getColumnIndex(TOKEN_COL_USER_ID)),
+                    cursor.getInt(cursor.getColumnIndex(TOKEN_COL_COIN)),
+                    cursor.getDouble(cursor.getColumnIndex(TOKEN_COL_AMOUNT)),
+                    cursor.getDouble(cursor.getColumnIndex(TOKEN_COL_PRICE)),
+                    cursor.getString(cursor.getColumnIndex(TOKEN_COL_TICKER)),
+                    cursor.getString(cursor.getColumnIndex(TOKEN_COL_NAME))
+            );
+
+            tokenList.add(token);
+        }
+
+        return tokenList;
+
     }
 
 }

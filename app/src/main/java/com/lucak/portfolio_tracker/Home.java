@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.lucak.Database.Database;
 import com.lucak.Database.db;
+import com.lucak.classes.Coin;
+import com.lucak.classes.Token;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
     private Button addToken;
@@ -36,7 +39,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onResume(){
         super.onResume();
-
+        ArrayAdapter<Coin> coinAdapter = new ArrayAdapter<Coin>(this,android.R.layout.simple_list_item_1, data.GetAllCoins());
+        coinList.setAdapter(coinAdapter);
+        ArrayAdapter<Token> tokenAdapter = new ArrayAdapter<Token>(this,android.R.layout.simple_list_item_1, data.GetAllTokens());
+        tokenList.setAdapter(tokenAdapter);
 
     }
 
