@@ -8,4 +8,9 @@
     <string name="email">Email</string>
     <string name="addCoin">Add Coin</string>
     <string name="addToken">Add Token</string>
+    <string name="coinAmount">Coin Amount:</string>
+    <string name="boughtPrice">Bought Price:</string>
+    <string name="coinName">Coin Name:</string>
+    <string name="coinTicker">Coin Ticker:</string>
+    <string name="add">Add</string>
 </resources>

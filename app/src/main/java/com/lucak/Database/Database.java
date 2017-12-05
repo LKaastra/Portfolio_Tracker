@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.lucak.classes.Coin;
 import com.lucak.classes.User;
 
 /**
@@ -28,6 +29,7 @@ public class Database extends SQLiteOpenHelper {
     //Coin Table Info
     public static final String COIN_TABLE_NAME = "Coins";
     public static final String COIN_COL_ID = "coin_ID";
+    public static final String COIN_COL_USER_ID = "user_ID";
     public static final String COIN_COL_AMOUNT = "coin_Amount";
     public static final String COIN_COL_PRICE = "price_Per_Coin";
     public static final String COIN_COL_TICKER = "coin_Ticker";
@@ -59,6 +61,7 @@ public class Database extends SQLiteOpenHelper {
 
         String createCoinTable = "CREATE TABLE " + COIN_TABLE_NAME + " ( " +
                 COIN_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COIN_COL_USER_ID + " INTEGER, " +
                 COIN_COL_AMOUNT + " REAL, " +
                 COIN_COL_PRICE + " REAL, " +
                 COIN_COL_TICKER + " VARCHAR, " +
@@ -133,6 +136,27 @@ public class Database extends SQLiteOpenHelper {
             return false;
         }
 
+    }
+
+    public boolean AddCoin(Coin coin){
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put(COIN_COL_USER_ID, coin.getUser_id());
+            cv.put(COIN_COL_NAME, coin.getCoin_Name());
+            cv.put(COIN_COL_AMOUNT, coin.getCoin_Amount());
+            cv.put(COIN_COL_PRICE, coin.getBought_Price());
+            cv.put(COIN_COL_TICKER, coin.getCoin_Ticker());
+
+            database.insert(COIN_TABLE_NAME, null, cv);
+            database.close();
+
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 
 }
