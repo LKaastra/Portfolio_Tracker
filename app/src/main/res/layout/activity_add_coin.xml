@@ -121,15 +121,21 @@
         android:gravity="center"
         android:minHeight="200px">
 
-    <Button
-        android:id="@+id/btnAddCoinPage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tableLayout"
+        <Button
+            android:id="@+id/btnAddCoinBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/back" />
 
-        android:text="@string/add" />
+        <Button
+            android:id="@+id/btnAddCoinPage"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableLayout"
+            android:text="@string/add" />
+
     </TableRow>
 </TableLayout>
 </RelativeLayout>

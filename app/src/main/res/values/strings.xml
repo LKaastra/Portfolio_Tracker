@@ -13,4 +13,8 @@
     <string name="coinName">Coin Name:</string>
     <string name="coinTicker">Coin Ticker:</string>
     <string name="add">Add</string>
+    <string name="back">Back</string>
+    <string name="tokenAmount">Token Amount:</string>
+    <string name="tokenName">Token Name:</string>
+    <string name="tokenTicker">Token Ticker:</string>
 </resources>

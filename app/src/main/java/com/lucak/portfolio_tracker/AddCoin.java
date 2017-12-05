@@ -1,5 +1,6 @@
 package com.lucak.portfolio_tracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
     private EditText coinAmount;
     private EditText boughtPrice;
     private Button addCoin;
+    private Button back;
     Database data;
 
 
@@ -31,7 +33,9 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
         coinAmount = (EditText) findViewById(R.id.coinAmount);
         boughtPrice = (EditText) findViewById(R.id.boughtPrice);
         addCoin = (Button) findViewById(R.id.btnAddCoinPage);
+        back = (Button) findViewById(R.id.btnAddCoinBack);
         addCoin.setOnClickListener(this);
+        back.setOnClickListener(this);
         data = new Database(this);
     }
 
@@ -51,22 +55,21 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
                         boughtPriceText.equals(null) || boughtPriceText.equals("")){
                     errorMessage += "Please fill in all Fields\n";
                 }
-                try {
-                    coin.setCoin_Amount(Double.parseDouble(coinAmountText));
-                    coin.setBought_Price(Double.parseDouble(boughtPriceText));
-                    coin.setCoin_Name(coinNameText);
-                    coin.setCoin_Ticker(coinTickerText);
-                    coin.setUser_id(db.myDB.loggedin.getUser_Id());
-                }
-                catch(Exception e){
-                    if (e instanceof NumberFormatException){
-                        errorMessage += "Please enter appropriate types\n";
+                if (errorMessage.equals("")) {
+                    try {
+                        coin.setCoin_Amount(Double.parseDouble(coinAmountText));
+                        coin.setBought_Price(Double.parseDouble(boughtPriceText));
+                        coin.setCoin_Name(coinNameText);
+                        coin.setCoin_Ticker(coinTickerText);
+                        coin.setUser_id(db.myDB.loggedin.getUser_Id());
+                    } catch (Exception e) {
+                        if (e instanceof NumberFormatException) {
+                            errorMessage += "Please enter appropriate types\n";
+                        } else {
+                            errorMessage += "Unexpected error\n";
+                        }
                     }
-                    else{
-                        errorMessage += "Unepected error\n";
-                    }
                 }
-
 
                 if (!errorMessage.equals("")){
                     Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
@@ -74,17 +77,21 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
                 else{
                     boolean result = data.AddCoin(coin);
                     if (result == true) {
-                        Toast.makeText(this, "Coin Added", Toast.LENGTH_LONG);
+                        Toast.makeText(this, "Coin Added", Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(this, Home.class);
+                        startActivity(i);
                     }
                     else{
-                        Toast.makeText(this, "Coin Not Added", Toast.LENGTH_LONG);
+                        Toast.makeText(this, "Error: Coin Not Added", Toast.LENGTH_LONG).show();
                     }
 
                 }
-
-
-
                 break;
+            case R.id.btnAddCoinBack:
+                Intent i = new Intent(this, Home.class);
+                startActivity(i);
+                break;
+
                 default:
                     Toast.makeText(this, "Unknown Error", Toast.LENGTH_LONG).show();
         }
