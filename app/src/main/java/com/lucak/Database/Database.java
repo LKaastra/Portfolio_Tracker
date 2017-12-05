@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lucak.classes.Coin;
+import com.lucak.classes.Token;
 import com.lucak.classes.User;
 
 /**
@@ -34,17 +35,18 @@ public class Database extends SQLiteOpenHelper {
     public static final String COIN_COL_PRICE = "price_Per_Coin";
     public static final String COIN_COL_TICKER = "coin_Ticker";
     public static final String COIN_COL_NAME = "coin_Name";
-    public static final String[] COIN_COLUMNS = {COIN_COL_ID, COIN_COL_AMOUNT, COIN_COL_PRICE, COIN_COL_TICKER, COIN_COL_NAME};
+    public static final String[] COIN_COLUMNS = {COIN_COL_ID, COIN_COL_USER_ID ,COIN_COL_AMOUNT, COIN_COL_PRICE, COIN_COL_TICKER, COIN_COL_NAME};
 
     //Coin Table Info
     public static final String TOKEN_TABLE_NAME = "Tokens";
     public static final String TOKEN_COL_ID = "token_ID";
+    public static final String TOKEN_COL_USER_ID = "user_ID";
     public static final String TOKEN_COL_COIN = "coin_ID";
     public static final String TOKEN_COL_AMOUNT = "token_Amount";
     public static final String TOKEN_COL_PRICE = "price_Per_token";
     public static final String TOKEN_COL_TICKER = "token_Ticker";
     public static final String TOKEN_COL_NAME = "token_Name";
-    public static final String[] TOKEN_COLUMNS = {TOKEN_COL_ID, TOKEN_COL_COIN, TOKEN_COL_AMOUNT, TOKEN_COL_AMOUNT, TOKEN_COL_PRICE, TOKEN_COL_TICKER, TOKEN_COL_NAME};
+    public static final String[] TOKEN_COLUMNS = {TOKEN_COL_ID, TOKEN_COL_USER_ID , TOKEN_COL_COIN, TOKEN_COL_AMOUNT, TOKEN_COL_AMOUNT, TOKEN_COL_PRICE, TOKEN_COL_TICKER, TOKEN_COL_NAME};
 
     public Database(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -70,6 +72,7 @@ public class Database extends SQLiteOpenHelper {
 
         String tokenCoinTable = "CREATE TABLE " + TOKEN_TABLE_NAME + " ( " +
                 TOKEN_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TOKEN_COL_USER_ID + " INTEGER, " +
                 TOKEN_COL_COIN + " INTEGER, " +
                 TOKEN_COL_AMOUNT + " REAL, " +
                 TOKEN_COL_PRICE + " REAL, " +
@@ -150,6 +153,28 @@ public class Database extends SQLiteOpenHelper {
             cv.put(COIN_COL_TICKER, coin.getCoin_Ticker());
 
             database.insert(COIN_TABLE_NAME, null, cv);
+            database.close();
+
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean AddToken(Token token){
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put(TOKEN_COL_USER_ID, token.getUser_Id());
+            cv.put(TOKEN_COL_NAME, token.getToken_Name());
+            cv.put(TOKEN_COL_AMOUNT, token.getToken_Amount());
+            cv.put(TOKEN_COL_PRICE, token.getBought_Price());
+            cv.put(TOKEN_COL_TICKER, token.getToken_Ticker());
+            cv.put(TOKEN_COL_COIN, token.getCoin_Id());
+
+            database.insert(TOKEN_TABLE_NAME, null, cv);
             database.close();
 
             return true;

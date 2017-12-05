@@ -72,7 +72,7 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
                 }
 
                 if (!errorMessage.equals("")){
-                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, errorMessage.substring(0, errorMessage.length() - 1), Toast.LENGTH_LONG).show();
                 }
                 else{
                     boolean result = data.AddCoin(coin);
