@@ -7,13 +7,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lucak.Database.Database;
-import com.lucak.Database.db;
 import com.lucak.classes.Coin;
-import com.lucak.classes.Token;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
     private Button addToken;
@@ -21,6 +20,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     private ListView tokenList;
     private ListView coinList;
     private Database data;
+    private ArrayList<Coin> coinArrayList = new ArrayList<Coin>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

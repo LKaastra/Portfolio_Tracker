@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.lucak.classes.Coin;
-import com.lucak.classes.Token;
 import com.lucak.classes.User;
 
 import java.util.ArrayList;
