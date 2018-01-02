@@ -50,6 +50,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String ALLCOINS_COL_ID = "all_Coin_ID";
     public static final String ALLCOINS_COL_SYMBOL = "symbol";
     public static final String ALLCOINS_COL_NAME = "name";
+    public static final String[] ALLCOINS_COLUMNS = {ALLCOINS_COL_ID, ALLCOINS_COL_SYMBOL, ALLCOINS_COL_NAME};
 
     public Database(Context context) {
         super(context, DB_NAME, null, VERSION);
@@ -67,7 +68,7 @@ public class Database extends SQLiteOpenHelper {
                 ")";
 
         String createCoinTable = "CREATE TABLE " + COIN_TABLE_NAME + " ( " +
-                COIN_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COIN_COL_ID + " VARCHAR, " +
                 COIN_COL_USER_ID + " INTEGER, " +
                 COIN_COL_NAME + " VARCHAR, " +
                 COIN_COL_AMOUNT + " REAL, " +
@@ -79,7 +80,7 @@ public class Database extends SQLiteOpenHelper {
                 ")";
 
         String createAllCoinsTable = "CREATE TABLE " + ALLCOINS_TABLE_NAME + " ( " +
-                ALLCOINS_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ALLCOINS_COL_ID + " VARCHAR, " +
                 ALLCOINS_COL_SYMBOL + " VARCHAR, " +
                 ALLCOINS_COL_NAME + " VARCHAR " +
                 ")";
@@ -140,7 +141,6 @@ public class Database extends SQLiteOpenHelper {
             cv.put(USER_COL_LASTNAME, "");
 
             database.insert(USER_TABLE_NAME, null, cv);
-            database.close();
 
             return true;
         }
@@ -155,6 +155,7 @@ public class Database extends SQLiteOpenHelper {
             SQLiteDatabase database = this.getWritableDatabase();
 
             ContentValues cv = new ContentValues();
+            cv.put(COIN_COL_ID, coin.getId());
             cv.put(COIN_COL_USER_ID, coin.getUser_id());
             cv.put(COIN_COL_NAME, coin.getCoin_Name());
             cv.put(COIN_COL_AMOUNT, coin.getCoin_Amount());
@@ -165,7 +166,30 @@ public class Database extends SQLiteOpenHelper {
             cv.put(COIN_COL_SEVENDAYCHANGE, "");
 
             database.insert(COIN_TABLE_NAME, null, cv);
-            database.close();
+
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    public boolean UpdateCoin(Coin coin){
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put(COIN_COL_USER_ID, coin.getUser_id());
+            cv.put(COIN_COL_NAME, coin.getCoin_Name());
+            cv.put(COIN_COL_AMOUNT, coin.getCoin_Amount());
+            cv.put(COIN_COL_BOUGHT, coin.getPriceBought());
+            cv.put(COIN_COL_CURRENT, coin.getPriceCurrent());
+            cv.put(COIN_COL_SYMBOL, coin.getSymbol());
+            cv.put(COIN_COL_ONEDAYCHANGE, coin.getOneDayChange());
+            cv.put(COIN_COL_SEVENDAYCHANGE, coin.getSevenDayChange());
+
+            database.update(COIN_TABLE_NAME,
+                    cv,
+                    COIN_COL_ID + " = ?", new String[]{coin.getId()});
 
             return true;
         }
@@ -188,7 +212,7 @@ public class Database extends SQLiteOpenHelper {
 
         while(cursor.moveToNext()){
             Coin coin = new Coin(
-                    cursor.getInt(cursor.getColumnIndex(COIN_COL_ID)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_ID)),
                     cursor.getInt(cursor.getColumnIndex(COIN_COL_USER_ID)),
                     cursor.getString(cursor.getColumnIndex(COIN_COL_NAME)),
                     cursor.getDouble(cursor.getColumnIndex(COIN_COL_AMOUNT)),
@@ -201,31 +225,75 @@ public class Database extends SQLiteOpenHelper {
 
             coinList.add(coin);
         }
-
         return coinList;
 
     }
 
     public boolean RefreshAllCoins(ArrayList<Coin> list){
 
-        try {
             SQLiteDatabase database = this.getWritableDatabase();
             database.delete(ALLCOINS_TABLE_NAME, "", null);
 
             for (Coin coin: list) {
                 ContentValues cv = new ContentValues();
+                cv.put(ALLCOINS_COL_ID, coin.getId());
                 cv.put(ALLCOINS_COL_NAME, coin.getCoin_Name());
                 cv.put(ALLCOINS_COL_SYMBOL, coin.getSymbol());
                 database.insert(ALLCOINS_TABLE_NAME, null, cv);
             }
 
-            database.close();
 
             return true;
-        }
-        catch(Exception e){
-            return false;
-        }
+
     }
+
+    public ArrayList<Coin> GetAllAllCoins(){
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(ALLCOINS_TABLE_NAME,
+                ALLCOINS_COLUMNS,
+                "",
+                null,
+                null,
+                null,
+                null);
+
+        ArrayList<Coin> coinList = new ArrayList<Coin>();
+
+        while(cursor.moveToNext()){
+            Coin coin = new Coin();
+            coin.setSymbol(cursor.getString(cursor.getColumnIndex(ALLCOINS_COL_SYMBOL)));
+            coin.setCoin_Name(cursor.getString(cursor.getColumnIndex(ALLCOINS_COL_NAME)));
+
+
+            coinList.add(coin);
+        }
+
+        return coinList;
+
+
+
+    }
+
+    public Coin GetSingleAllCoins(String symbol){
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(ALLCOINS_TABLE_NAME,
+                ALLCOINS_COLUMNS,
+                ALLCOINS_COL_SYMBOL + " = ? ",
+                new String[]{symbol},
+                null,
+                null,
+                null);
+
+        Coin coin = new Coin();
+        while(cursor.moveToNext()){
+            coin.setId(cursor.getString(cursor.getColumnIndex(ALLCOINS_COL_ID)));
+            coin.setSymbol(cursor.getString(cursor.getColumnIndex(ALLCOINS_COL_SYMBOL)));
+            coin.setCoin_Name(cursor.getString(cursor.getColumnIndex(ALLCOINS_COL_NAME)));
+
+
+        }
+        return coin;
+    }
+
 
 }

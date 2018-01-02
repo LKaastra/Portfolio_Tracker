@@ -35,12 +35,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onResume(){
-        data mydata = new data(this);
-        mydata.execute();
 
         CustomAdapter coinAdapter = new CustomAdapter(this, R.layout.homearraylayout);
         coinAdapter.addAll(data.GetAllCoins());
         coinList.setAdapter(coinAdapter);
+        data mydata = new data(this, coinAdapter, coinList);
+        mydata.execute();
 
 
         super.onResume();

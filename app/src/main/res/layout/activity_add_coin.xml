@@ -37,37 +37,14 @@
             android:layout_height="wrap_content"
             android:text="@string/coinName" />
 
-        <EditText
-            android:id="@+id/coinName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="" />
+        <Spinner
+            android:id="@+id/addCoinName"
+            android:layout_width="match_parent"
+            android:layout_height="37dp" />
+
     </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:minHeight="25dp">
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/coinTicker" />
-
-        <EditText
-            android:id="@+id/coinTicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="" />
-    </TableRow>
-
-    <TableRow
+        <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"

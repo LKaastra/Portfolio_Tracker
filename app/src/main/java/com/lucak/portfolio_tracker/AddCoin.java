@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.lucak.Database.Database;
@@ -13,10 +15,11 @@ import com.lucak.Database.db;
 import com.lucak.classes.Coin;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class AddCoin extends AppCompatActivity implements View.OnClickListener {
-    private EditText coinName;
-    private EditText coinTicker;
+    private Spinner coinName;
     private EditText coinAmount;
     private EditText boughtPrice;
     private Button addCoin;
@@ -28,8 +31,7 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_coin);
-        coinName = (EditText) findViewById(R.id.coinName);
-        coinTicker = (EditText) findViewById(R.id.coinTicker);
+        coinName = (Spinner) findViewById(R.id.addCoinName);
         coinAmount = (EditText) findViewById(R.id.coinAmount);
         boughtPrice = (EditText) findViewById(R.id.boughtPrice);
         addCoin = (Button) findViewById(R.id.btnAddCoinPage);
@@ -40,27 +42,41 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onResume() {
+        ArrayList<Coin> coins = data.GetAllAllCoins();
+        ArrayList<String> names = new ArrayList<String>();
+        for (Coin coin : coins){
+            names.add(coin.getSymbol());
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, names);
+        coinName.setAdapter(spinnerAdapter);
+
+        super.onResume();
+    }
+
+    @Override
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btnAddCoinPage:
                 String errorMessage = "";
                 Coin coin = new Coin();
-                String coinNameText = coinName.getText().toString().trim();
-                String coinTickerText = coinTicker.getText().toString().trim();
+                String coinNameText = String.valueOf(coinName.getSelectedItem());
                 String coinAmountText = coinAmount.getText().toString().trim();
                 String boughtPriceText = boughtPrice.getText().toString().trim();
                 if (coinNameText.equals(null) || coinNameText.equals("") ||
-                        coinTickerText.equals(null) || coinTickerText.equals("") ||
                         coinAmountText.equals(null) || coinAmountText.equals("") ||
                         boughtPriceText.equals(null) || boughtPriceText.equals("")){
                     errorMessage += "Please fill in all Fields\n";
                 }
                 if (errorMessage.equals("")) {
                     try {
+
                         coin.setCoin_Amount(Double.parseDouble(coinAmountText));
                         coin.setPriceBought(Double.parseDouble(boughtPriceText));
-                        coin.setCoin_Name(coinNameText);
-                        coin.setSymbol(coinTickerText);
+                        coin.setSymbol(coinNameText);
+                        Coin dataCoin = data.GetSingleAllCoins(coin.getSymbol());
+                        coin.setId(dataCoin.getId());
+                        coin.setCoin_Name(dataCoin.getCoin_Name());
                         coin.setUser_id(db.myDB.loggedin.getUser_Id());
                     } catch (Exception e) {
                         if (e instanceof NumberFormatException) {

@@ -1,6 +1,7 @@
 package com.lucak.classes;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -38,13 +39,32 @@ public class CustomAdapter extends ArrayAdapter {
         TextView oneDay = convertView.findViewById(R.id.oneDay);
         TextView sevenDay = convertView.findViewById(R.id.sevenDay);
 
-        double totalHoldings = coin.getCoin_Amount() * coin.getPriceCurrent();
+        double coinAmount = coin.getCoin_Amount();
 
-        name.setText(coin.getCoin_Name());
-        holding.setText(Double.toString(totalHoldings));
-        coins.setText(Double.toString(coin.getCoin_Amount()));
-        oneDay.setText("1day: " + coin.getOneDayChange() + "%");
-        sevenDay.setText("7day:" + coin.getSevenDayChange() + "%");
+        double totalHoldings = coinAmount * coin.getPriceCurrent();
+
+        name.setText(coin.getSymbol());
+        holding.setText("$" + Double.toString(totalHoldings));
+        coins.setText(Double.toString(coinAmount));
+
+
+
+        if (coin.getOneDayChange().contains("-")){
+            oneDay.setText("1day: " + coin.getOneDayChange() + "%");
+            oneDay.setTextColor(Color.RED);
+        }
+        else{
+            oneDay.setText("1day: +" + coin.getOneDayChange() + "%");
+            oneDay.setTextColor(Color.parseColor("#228B22"));
+        }
+        if (coin.getSevenDayChange().contains("-")){
+            sevenDay.setText("7day: " + coin.getSevenDayChange() + "%");
+            sevenDay.setTextColor(Color.RED);
+        }
+        else{
+            sevenDay.setText("7day: +" + coin.getSevenDayChange() + "%");
+            sevenDay.setTextColor(Color.parseColor("#228B22"));
+        }
 
         return convertView;
     }

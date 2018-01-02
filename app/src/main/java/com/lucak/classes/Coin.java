@@ -5,7 +5,7 @@ package com.lucak.classes;
  */
 
 public class Coin {
-    private int id;
+    private String id;
     private int user_id;
     private String coin_Name;
     private double coin_Amount;
@@ -16,7 +16,7 @@ public class Coin {
     private String sevenDayChange;
 
     public Coin() {
-        this.id = 0;
+        this.id = "";
         this.user_id = 0;
         this.coin_Name = "";
         this.coin_Amount = 0;
@@ -30,7 +30,7 @@ public class Coin {
 
     public Coin(String coin_Name, double coin_Amount, double priceBought,
                 double priceCurrent, String symbol, String oneDayChange, String sevenDayChange) {
-        this.id = 0;
+        this.id = "";
         this.user_id = 0;
         this.coin_Name = coin_Name;
         this.coin_Amount = coin_Amount;
@@ -41,7 +41,7 @@ public class Coin {
         this.sevenDayChange = sevenDayChange;
     }
 
-    public Coin(int id, int user_id, String coin_Name, double coin_Amount, double priceBought,
+    public Coin(String id, int user_id, String coin_Name, double coin_Amount, double priceBought,
                 double priceCurrent, String symbol, String oneDayChange, String sevenDayChange) {
         this.id = id;
         this.user_id = user_id;
@@ -54,11 +54,11 @@ public class Coin {
         this.sevenDayChange = sevenDayChange;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
