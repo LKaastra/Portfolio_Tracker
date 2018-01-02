@@ -9,12 +9,17 @@ public class User {
     private String user_Name;
     private String password;
     private String email;
+    private String firstName;
+    private String lastName;
 
-    public User(int user_Id, String user_Name, String password, String email){
+
+    public User(int user_Id, String user_Name, String password, String email, String firstName, String lastName){
         this.user_Id = user_Id;
         this.user_Name = user_Name;
         this.password = password;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public User(String user_Name, String password){
@@ -33,6 +38,22 @@ public class User {
         this.user_Name = user_Name;
         this.password = password;
         this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getUser_Id() {

@@ -58,9 +58,9 @@ public class AddCoin extends AppCompatActivity implements View.OnClickListener {
                 if (errorMessage.equals("")) {
                     try {
                         coin.setCoin_Amount(Double.parseDouble(coinAmountText));
-                        coin.setBought_Price(Double.parseDouble(boughtPriceText));
+                        coin.setPriceBought(Double.parseDouble(boughtPriceText));
                         coin.setCoin_Name(coinNameText);
-                        coin.setCoin_Ticker(coinTickerText);
+                        coin.setSymbol(coinTickerText);
                         coin.setUser_id(db.myDB.loggedin.getUser_Id());
                     } catch (Exception e) {
                         if (e instanceof NumberFormatException) {

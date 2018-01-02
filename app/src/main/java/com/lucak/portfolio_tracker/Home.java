@@ -11,13 +11,13 @@ import android.widget.Toast;
 
 import com.lucak.Database.Database;
 import com.lucak.classes.Coin;
+import com.lucak.classes.CustomAdapter;
+import com.lucak.coinmarketcapAPI.data;
 
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
-    private Button addToken;
     private Button addCoin;
-    private ListView tokenList;
     private ListView coinList;
     private Database data;
     private ArrayList<Coin> coinArrayList = new ArrayList<Coin>();
@@ -27,22 +27,23 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Intent i = getIntent();
-        addToken = (Button)findViewById(R.id.btnAddToken);
         addCoin = (Button)findViewById(R.id.btnAddCoin);
-        tokenList = (ListView) findViewById(R.id.tokenListView);
         coinList = (ListView) findViewById(R.id.coinListView);
-        addToken.setOnClickListener(this);
         addCoin.setOnClickListener(this);
         data = new Database(this);
     }
 
     @Override
     public void onResume(){
-        super.onResume();
-        ArrayAdapter<Coin> coinAdapter = new ArrayAdapter<Coin>(this,android.R.layout.simple_list_item_1, data.GetAllCoins());
+        data mydata = new data(this);
+        mydata.execute();
+
+        CustomAdapter coinAdapter = new CustomAdapter(this, R.layout.homearraylayout);
+        coinAdapter.addAll(data.GetAllCoins());
         coinList.setAdapter(coinAdapter);
-        ArrayAdapter<Token> tokenAdapter = new ArrayAdapter<Token>(this,android.R.layout.simple_list_item_1, data.GetAllTokens());
-        tokenList.setAdapter(tokenAdapter);
+
+
+        super.onResume();
 
     }
 
@@ -51,10 +52,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         switch(v.getId()){
             case R.id.btnAddCoin:
                 Intent i = new Intent(this, AddCoin.class);
-                startActivity(i);
-                break;
-            case R.id.btnAddToken:
-                i = new Intent(this, AddToken.class);
                 startActivity(i);
                 break;
             default:
