@@ -1,15 +1,18 @@
 package com.lucak.coinmarketcapAPI;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.lucak.portfolio_tracker.Home;
+import com.lucak.portfolio_tracker.R;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,6 +45,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             handler.post(new Runnable() {
                 public void run() {
                     Log.d(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+                    NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(getApplicationContext())
+                                    .setContentTitle(remoteMessage.getNotification().getTitle())
+                                    .setContentText(remoteMessage.getNotification().getBody());
+
+                    int mNotificationId = 001;
+                    NotificationManager mNotifyMgr =
+                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
                 }
             });
