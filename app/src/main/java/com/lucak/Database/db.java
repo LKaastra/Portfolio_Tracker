@@ -10,5 +10,8 @@ public class db {
 
     public static class myDB {
         public static User loggedin;
+        public static double TotalNumber;
+        public static double TotalPercent;
+        public static String fireBaseToken;
     }
 }

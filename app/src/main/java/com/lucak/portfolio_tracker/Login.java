@@ -1,5 +1,6 @@
 package com.lucak.portfolio_tracker;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.lucak.Database.Database;
 import com.lucak.Database.db;
 import com.lucak.classes.User;
+import com.lucak.coinmarketcapAPI.MyBacgroundService;
 
 public class Login extends AppCompatActivity implements OnClickListener {
 
@@ -32,6 +34,8 @@ public class Login extends AppCompatActivity implements OnClickListener {
         login.setOnClickListener(this);
         createAccount.setOnClickListener(this);
         data = new Database(this);
+        Intent serviceIntent = new Intent(this, MyBacgroundService.class);
+        startService(serviceIntent);
     }
 
     @Override

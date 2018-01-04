@@ -1,5 +1,6 @@
 package com.lucak.coinmarketcapAPI;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.widget.Adapter;
 import android.widget.ListView;
 
 import com.lucak.Database.Database;
+import com.lucak.Database.db;
 import com.lucak.classes.Coin;
 import com.lucak.classes.CustomAdapter;
 
@@ -44,6 +46,8 @@ public class data extends AsyncTask{
         if (coins != null) {
             data.RefreshAllCoins(coins);
         }
+        double totalNumber = 0;
+        double totalPercent = 0;
         ArrayList<Coin> infoCoins = data.GetAllCoins();
         for (Coin coin : infoCoins) {
             Coin newCoin = APICallSingle(coin.getId());
@@ -52,8 +56,13 @@ public class data extends AsyncTask{
                 coin.setSevenDayChange(newCoin.getSevenDayChange());
                 coin.setOneDayChange(newCoin.getOneDayChange());
                 data.UpdateCoin(coin);
+                totalNumber += coin.getPriceCurrent() * coin.getCoin_Amount();
+                totalPercent += Double.parseDouble(coin.getOneDayChange());
             }
         }
+        totalPercent = totalPercent / infoCoins.size();
+        db.myDB.TotalPercent = totalPercent;
+        db.myDB.TotalNumber = totalNumber;
 
         return null;
     }
@@ -64,6 +73,7 @@ public class data extends AsyncTask{
         adapter.clear();
         adapter.addAll(data.GetAllCoins());
         list.setAdapter(adapter);
+
         super.onPostExecute(o);
     }
 

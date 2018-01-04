@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends ArrayAdapter {
 
+
     public CustomAdapter(@NonNull Context context, int resource) {
         super(context, resource);
     }
@@ -41,11 +42,11 @@ public class CustomAdapter extends ArrayAdapter {
 
         double coinAmount = coin.getCoin_Amount();
 
-        double totalHoldings = coinAmount * coin.getPriceCurrent();
+        double totalHoldings = Math.round(coinAmount * coin.getPriceCurrent() * 1000)/ 1000;
 
         name.setText(coin.getSymbol());
         holding.setText("$" + Double.toString(totalHoldings));
-        coins.setText(Double.toString(coinAmount));
+        coins.setText(Double.toString(coin.getCoin_Amount()));
 
 
 
@@ -66,6 +67,9 @@ public class CustomAdapter extends ArrayAdapter {
             sevenDay.setTextColor(Color.parseColor("#228B22"));
         }
 
+
+
         return convertView;
     }
+
 }

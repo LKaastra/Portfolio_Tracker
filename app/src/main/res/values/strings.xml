@@ -17,4 +17,17 @@
     <string name="tokenAmount">Token Amount:</string>
     <string name="tokenName">Token Name:</string>
     <string name="tokenTicker">Token Ticker:</string>
+    <string name="manageAccount">Manage Account</string>
+    <string name="coin">Coin</string>
+    <string name="holdings">Holdings</string>
+    <string name="change">Change</string>
+    <string name="firsName">First Name</string>
+    <string name="lasName">Last Name</string>
+    <string name="editInfo">Edit Info</string>
+    <string name="notifications">Notifications</string>
+    <string name="emailMe">Email Me</string>
+    <string name="submit">Submit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

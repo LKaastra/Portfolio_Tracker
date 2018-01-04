@@ -7,6 +7,12 @@
     tools:context="com.lucak.portfolio_tracker.Home">
 
 
+    <fragment
+        android:id="@+id/headerFrag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.lucak.portfolio_tracker.header"/>
+
     <ListView
         android:id="@+id/coinListView"
         android:layout_width="match_parent"
@@ -17,5 +23,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/addCoin" />
+
+    <Button
+        android:id="@+id/btnManageAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manageAccount" />
 
 </LinearLayout>

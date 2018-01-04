@@ -149,6 +149,26 @@ public class Database extends SQLiteOpenHelper {
         }
 
     }
+    public boolean UpdateUser(User user){
+        try {
+            SQLiteDatabase database = this.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            cv.put(USER_COL_LOGIN, user.getUser_Name());
+            cv.put(USER_COL_PASS, user.getPassword());
+            cv.put(USER_COL_EMAIL, user.getEmail());
+            cv.put(USER_COL_FIRSTNAME, "");
+            cv.put(USER_COL_LASTNAME, "");
+
+            database.update(USER_TABLE_NAME, cv,  USER_COL_ID + " = ? ", new String[]{Integer.toString(user.getUser_Id())});
+
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+
+    }
 
     public boolean AddCoin(Coin coin){
         try {
@@ -294,6 +314,34 @@ public class Database extends SQLiteOpenHelper {
         }
         return coin;
     }
+
+    public Coin GetSingleCoin(String symbol) {
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor = database.query(COIN_TABLE_NAME,
+                COIN_COLUMNS,
+                COIN_COL_SYMBOL + " = ? ",
+                new String[]{symbol},
+                null,
+                null,
+                null);
+
+        Coin coin;
+        cursor.moveToNext();
+            coin = new Coin(
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_ID)),
+                    cursor.getInt(cursor.getColumnIndex(COIN_COL_USER_ID)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_NAME)),
+                    cursor.getDouble(cursor.getColumnIndex(COIN_COL_AMOUNT)),
+                    cursor.getDouble(cursor.getColumnIndex(COIN_COL_BOUGHT)),
+                    cursor.getDouble(cursor.getColumnIndex(COIN_COL_CURRENT)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_SYMBOL)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_ONEDAYCHANGE)),
+                    cursor.getString(cursor.getColumnIndex(COIN_COL_SEVENDAYCHANGE))
+            );
+
+
+            return coin;
+        }
 
 
 }
